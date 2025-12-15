@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* This is your stylesheet. All the visual rules for your site go here. */
+
+:root {
+    /* ... (your color variables are still here, I'm omitting them for brevity) ... */
+    --color-green-1: #5ba675;
+    --color-green-2: #6bc96c;
+    --color-green-3: #abdd64;
+    --color-yellow-1: #fcef8d;
+    --color-orange-1: #ffb879;
+    --color-red-1: #ea6262;
+    --color-red-2: #cc425e;
+    --color-purple-1: #a32858;
+    --color-purple-2: #751756;
+    --color-purple-3: #390947;
+    --color-purple-4: #611851;
+    --color-purple-5: #873555;
+    --color-purple-6: #4e187c;
+    --color-purple-7: #7d2da0;
+    --color-purple-8: #834dc4;
+    --color-purple-9: #8465ec;
+    --color-pink-1: #a6555f;
+    --color-pink-2: #c97373;
+    --color-pink-3: #f2ae99;
+    --color-pink-4: #ffc3f2;
+    --color-pink-5: #ee8fcb;
+    --color-pink-6: #d46eb3;
+    --color-pink-7: #873e84;
+    --color-neutral-dark-1: #1f102a;
+    --color-neutral-dark-2: #4a3052;
+    --color-neutral-medium-1: #7b5480;
+    --color-neutral-medium-2: #a6859f;
+    --color-neutral-light-1: #d9bdc8;
+    --color-neutral-white: #ffffff;
+    --color-blue-1: #aee2ff;
+    --color-blue-2: #8db7ff;
+    --color-blue-3: #6d80fa;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Hide anything that goes off-screen */
+}
+
+body {
+    background-color: var(--color-neutral-dark-1);
+    background-image: url('assets/background.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
+}
+
+.card-container {
+    position: relative;
+    width: 2000px;
+    height: 500px;
+    --angle: 19deg; 
+    perspective: 1000px;
+}
+
+.card {
+    position: absolute;
+    bottom: -50px; 
+    left: calc(50% - 150px);
+    width: 300px;
+    height: 450px;
+
+    background-size: cover;
+    background-position: center;    
+    background-repeat: no-repeat;
+    transform-origin: bottom center;
+    
+    /* This is the card's final resting state, now including the --push variables for JS */
+    transform: translateY(var(--push-y, 0px)) rotate(calc(var(--i) * var(--angle) + var(--push-angle, 0deg)));
+    
+    animation: fanOut 0.67s ease-out backwards;
+
+    /* This transition handles all transform changes smoothly */
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Added opacity to transition */
+}
+
+.card:nth-child(1) { 
+    --i: -2; 
+    animation-delay: 0.5s; 
+    background-image: url('assets/card_back_1.png'); 
+}
+.card:nth-child(2) { 
+    --i: -1; 
+    animation-delay: 0.4s; 
+    background-image: url('assets/card_back_2.png'); 
+}
+.card:nth-child(3) { 
+    --i: 0; 
+    animation-delay: 0.3s; 
+    background-image: url('assets/card_back_3.png'); 
+}
+.card:nth-child(4) { 
+    --i: 1; 
+    animation-delay: 0.2s; 
+    background-image: url('assets/card_back_4.png'); 
+}
+.card:nth-child(5) { 
+    --i: 2; 
+    animation-delay: 0.1s; 
+    background-image: url('assets/card_back_5.png'); 
+} 
+
+/* The animation keyframes */
+@keyframes fanOut {
+    from {
+        transform: rotate(-60deg); 
+    }
+    to {
+        transform: rotate(calc(var(--i) * var(--angle)));
+    }
+}
+
+/* --- Hover Effects --- */
+
+/* Hover effects are disabled while the .is-animating class is on the body */
+body:not(.is-animating) .card-container .card:hover {
+    transform: translateY(-110px) scale(1.1) translateZ(100px) rotate(calc(var(--i) * var(--angle)));
+}
+
+body:not(.is-animating) .card-container:has(.card:hover) .card:not(:hover) {
+    opacity: 0.5;
+}
