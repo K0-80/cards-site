@@ -63,6 +63,8 @@ body {
     height: 500px;
     --angle: 22deg; 
     perspective: 1000px;
+    margin-left: 100px; 
+
 }
 
 .card {
@@ -132,14 +134,14 @@ body {
 /* Hover effects are disabled while the .is-animating class is on the body */
 body:not(.is-animating) .card-container .card:hover {
     transform: scale(1.1) translateZ(100px) rotate(calc(var(--i) * var(--angle))) translateY(-100px);
-    filter: drop-shadow(0 0 25px rgba(255, 184, 121, 0.2)); /* Rounded glow following card shape */
+    filter: drop-shadow(0 0 20px rgba(255, 184, 121, 0.15)); 
 }
 
 body:not(.is-animating) .card-container:has(.card:hover) .card:not(:hover) {
     opacity: 0.5;
 }
 
-.card-name {
+/* .card-name {
     position: absolute;
     top: 16%;
     left: 0;
@@ -151,7 +153,7 @@ body:not(.is-animating) .card-container:has(.card:hover) .card:not(:hover) {
     opacity: 0;
     transform: translateY(-50%); 
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-}
+} */
 
 .card-name {
     position: absolute;

@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resetHoverEffects();
         });
 
-        card.addEventListener('mousedown', () => {
+        card.addEventListener('click', () => {
             if (body.classList.contains('is-animating')) return;
 
             if (cardIndex === 1) { // About card
