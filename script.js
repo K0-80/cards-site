@@ -56,7 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'about.html';
             } else if (cardIndex === 2) { // Home card
                 window.location.href = 'index.html';
+            } else if (cardIndex === 3) { // vBlog? card
+                window.location.href = 'vblog.html';
             }
+            else  {window.location.href = 'wip.html';}
         });
     });
 

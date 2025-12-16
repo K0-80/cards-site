@@ -3,4 +3,4 @@
 make backgorund a interactive constlation map
 when moving mouse to edges it will shift everything to be more dynamic
 
-when hovering card, make it glow a lil on its back
+when clicking card make it cover sereen then leave, then come backk into deck  then  switch into next page
