@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-/* This is your stylesheet. All the visual rules for your site go here. */
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica:ital@0;1&family=Pixelify+Sans:wght@400..700&display=swap');
 
 :root {
     /* ... (your color variables are still here, I'm omitting them for brevity) ... */
@@ -62,7 +61,7 @@ body {
     position: relative;
     width: 2000px;
     height: 500px;
-    --angle: 19deg; 
+    --angle: 22deg; 
     perspective: 1000px;
 }
 
@@ -70,8 +69,8 @@ body {
     position: absolute;
     bottom: -50px; 
     left: calc(50% - 150px);
-    width: 300px;
-    height: 450px;
+    width: 200px;
+    height: 300px;
 
     background-size: cover;
     background-position: center;    
@@ -82,36 +81,39 @@ body {
     transform: translateY(var(--push-y, 0px)) rotate(calc(var(--i) * var(--angle) + var(--push-angle, 0deg)));
     
     animation: fanOut 0.67s ease-out backwards;
+    animation-delay: var(--initial-animation-delay, 0s), 1.2s; /* Delay bob until after fanOut */
 
     /* This transition handles all transform changes smoothly */
     transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Added opacity to transition */
 }
 
+
+
 .card:nth-child(1) { 
     --i: -2; 
-    animation-delay: 0.5s; 
+    animation-delay: 0.5s, 1.7s; /* fanOut delay, cardBob delay */
     background-image: url('assets/card_back_1.png'); 
 }
 .card:nth-child(2) { 
     --i: -1; 
-    animation-delay: 0.4s; 
+    animation-delay: 0.4s, 1.6s; /* fanOut delay, cardBob delay */
     background-image: url('assets/card_back_2.png'); 
 }
 .card:nth-child(3) { 
     --i: 0; 
-    animation-delay: 0.3s; 
+    animation-delay: 0.3s, 1.5s; /* fanOut delay, cardBob delay */
     background-image: url('assets/card_back_3.png'); 
 }
 .card:nth-child(4) { 
     --i: 1; 
-    animation-delay: 0.2s; 
+    animation-delay: 0.2s, 1.4s; /* fanOut delay, cardBob delay */
     background-image: url('assets/card_back_4.png'); 
 }
 .card:nth-child(5) { 
     --i: 2; 
-    animation-delay: 0.1s; 
+    animation-delay: 0.1s, 1.3s; /* fanOut delay, cardBob delay */
     background-image: url('assets/card_back_5.png'); 
-} 
+}  
 
 /* The animation keyframes */
 @keyframes fanOut {
@@ -123,13 +125,49 @@ body {
     }
 }
 
+
+
 /* --- Hover Effects --- */
 
 /* Hover effects are disabled while the .is-animating class is on the body */
 body:not(.is-animating) .card-container .card:hover {
-    transform: translateY(-110px) scale(1.1) translateZ(100px) rotate(calc(var(--i) * var(--angle)));
+    transform: scale(1.1) translateZ(100px) rotate(calc(var(--i) * var(--angle))) translateY(-100px);
+    filter: drop-shadow(0 0 25px rgba(255, 184, 121, 0.2)); /* Rounded glow following card shape */
 }
 
 body:not(.is-animating) .card-container:has(.card:hover) .card:not(:hover) {
     opacity: 0.5;
+}
+
+.card-name {
+    position: absolute;
+    top: 16%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'IM Fell DW Pica', serif;
+    font-size: 24px;
+    color: var(--color-orange-1);
+    opacity: 0;
+    transform: translateY(-50%); 
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.card-name {
+    position: absolute;
+    top: 16%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Pixelify Sans', serif;
+    font-size: 24px;
+    color: var(--color-orange-1);
+    opacity: 0;
+    transform: translateY(-50%); 
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+body:not(.is-animating) .card:hover .card-name {
+    opacity: 1;
+    transform: translateY(-250%); /* Move it up on hover */
 }
