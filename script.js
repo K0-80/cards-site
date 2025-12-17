@@ -38,6 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function wobbleCard(card) {
+        const wobbleAmount = [6, -5, 3, -2, 1, 0];
+        const wobbleDuration = 100; 
+
+        wobbleAmount.forEach((amount, index) => {
+            setTimeout(() => {
+                card.style.setProperty('--wobble-rotate', `${amount}deg`);
+            }, index * wobbleDuration);
+        });
+    }
+
     // --- Event Listeners & Animation Handling ---
     cards.forEach((card, cardIndex) => {
         card.addEventListener('mouseenter', () => {
@@ -59,6 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (window.location.hash !== path) {
                     history.pushState({ page }, '', path);
                     loadPage(page);
+                } else {
+                    wobbleCard(card);
                 }
             }
         });
@@ -78,11 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const html = await response.text();
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
-            
-            // Fade out
-            pageContent.style.opacity = 0;
-
-
                 pageContent.innerHTML = doc.body.innerHTML;
                 // Re-run scripts if any, though it's better to have global scripts
                 const scripts = doc.body.querySelectorAll('script');
@@ -95,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     document.body.appendChild(newScript).parentNode.removeChild(newScript);
                 });
-                // Fade in
                 pageContent.style.opacity = 1;
 
 
