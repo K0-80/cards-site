@@ -49,21 +49,77 @@ document.addEventListener('DOMContentLoaded', () => {
             resetHoverEffects();
         });
 
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
             if (body.classList.contains('is-animating')) return;
 
-            if (cardIndex === 1) { // About card
-                window.location.href = 'about.html';
-            } else if (cardIndex === 2) { // Home card
-                window.location.href = 'index.html';
-            } else if (cardIndex === 3) { // vBlog? card
-                window.location.href = 'vblog.html';
+            const page = card.dataset.page;
+            if (page) {
+                e.preventDefault();
+                const path = `#${page}`;
+                if (window.location.hash !== path) {
+                    history.pushState({ page }, '', path);
+                    loadPage(page);
+                }
             }
-            else  {window.location.href = 'wip.html';}
         });
     });
 
+    // --- SPA Routing Logic ---
+    const pageContent = document.getElementById('page-content');
 
+    async function loadPage(page) {
+        if (!page) return;
+        try {
+            const response = await fetch(`pages/${page}.html`);
+            if (!response.ok) {
+                pageContent.innerHTML = `<p>Error: Could not load page. Status: ${response.status}</p>`;
+                return;
+            }
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Fade out
+            pageContent.style.opacity = 0;
+
+
+                pageContent.innerHTML = doc.body.innerHTML;
+                // Re-run scripts if any, though it's better to have global scripts
+                const scripts = doc.body.querySelectorAll('script');
+                scripts.forEach(s => {
+                    const newScript = document.createElement('script');
+                    if (s.src) {
+                        newScript.src = s.src;
+                    } else {
+                        newScript.textContent = s.textContent;
+                    }
+                    document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                });
+                // Fade in
+                pageContent.style.opacity = 1;
+
+
+        } catch (error) {
+            console.error('Failed to load page:', error);
+            pageContent.innerHTML = '<p>An error occurred while loading the content.</p>';
+        }
+    }
+    
+    // Handle browser back/forward
+    window.addEventListener('popstate', (e) => {
+        const page = e.state?.page || window.location.hash.substring(1) || 'home';
+        loadPage(page);
+    });
+
+    // Handle initial page load
+    function initialLoad() {
+        const initialPage = window.location.hash.substring(1) || 'home';
+        loadPage(initialPage);
+        // Ensure the correct state is in history
+        history.replaceState({ page: initialPage }, '', `#${initialPage}`);
+    }
+
+    // --- Animation Handling ---
     setTimeout(() => {
         body.classList.remove('is-animating');
         const currentlyHovered = document.querySelector('.card:hover');
@@ -73,5 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 applyHoverEffects(hoveredIndex);
             }
         }
+        initialLoad(); // Load content after intro animation
     }, 1200);
 });
