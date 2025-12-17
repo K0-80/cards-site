@@ -83,20 +83,26 @@ body {
     --push-rotate: var(--push-angle, 0deg);
     --wobble-rotate: 0deg;
     --hover-scale: 1;
+    --pressed-scale: 1; /* Added for click effect */
     --hover-translate-y: 0px;
     --hover-translate-z: 0px;
 
     transform: 
         translateY(var(--push-y, 0px)) 
         rotate(calc(var(--base-rotate) + var(--push-rotate) + var(--wobble-rotate)))
-        scale(var(--hover-scale))
+        scale(calc(var(--hover-scale) * var(--pressed-scale))) /* Use calc() for multiplication */
         translateY(var(--hover-translate-y))
         translateZ(var(--hover-translate-z));
     
     animation: fanOut 0.67s ease-out backwards;
     animation-delay: var(--initial-animation-delay, 0s), 1.2s; /* Delay bob until after fanOut */
 
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Added opacity to transition */
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+/* Corrected rule: Only set the variable, don't override the whole transform */
+.card--pressed {
+    --pressed-scale: 0.95;
 }
 .card:nth-child(1) { 
     --i: -2; 
@@ -165,7 +171,7 @@ body:not(.is-animating) .card-container:has(.card:hover) .card:not(:hover) {
 
 .card-name {
     position: absolute;
-    top: 16%;
+    top: 15%;
     left: 0;
     width: 100%;
     text-align: center;

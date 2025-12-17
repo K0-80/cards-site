@@ -56,8 +56,29 @@ document.addEventListener('DOMContentLoaded', () => {
             applyHoverEffects(cardIndex);
         });
 
+        // Combined mouseleave event
         card.addEventListener('mouseleave', () => {
             resetHoverEffects();
+            card.classList.remove('card--pressed');
+        });
+
+        // Add mousedown and mouseup listeners for shrink effect
+        card.addEventListener('mousedown', () => {
+            if (body.classList.contains('is-animating')) return;
+
+            // Check if this click will cause a wobble. If so, don't apply the press effect.
+            const page = card.dataset.page;
+            if (page) {
+                const path = `#${page}`;
+                if (window.location.hash === path) {
+                    return; // This will be a wobble, so we skip the press-down.
+                }
+            }
+            card.classList.add('card--pressed');
+        });
+
+        card.addEventListener('mouseup', () => {
+            card.classList.remove('card--pressed');
         });
 
         card.addEventListener('click', (e) => {
