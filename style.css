@@ -84,6 +84,7 @@ body {
     --wobble-rotate: 0deg;
     --hover-scale: 1;
     --pressed-scale: 1; /* Added for click effect */
+    --name-lift: -250%; /* Added for sync effect */
     --hover-translate-y: 0px;
     --hover-translate-z: 0px;
 
@@ -103,6 +104,8 @@ body {
 /* Corrected rule: Only set the variable, don't override the whole transform */
 .card--pressed {
     --pressed-scale: 0.95;
+    --name-lift: calc(-250% / 0.95); 
+    transition: transform 0.1s
 }
 .card:nth-child(1) { 
     --i: -2; 
@@ -181,11 +184,12 @@ body:not(.is-animating) .card-container:has(.card:hover) .card:not(:hover) {
     opacity: 0;
     transform: translateY(-50%); 
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    user-select: none; /* Prevent text highlighting */
 }
 
 body:not(.is-animating) .card:hover .card-name {
     opacity: 1;
-    transform: translateY(-250%); 
+    transform: translateY(var(--name-lift)); 
 }
 
 /* --- Page Content --- */

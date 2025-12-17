@@ -124,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     document.body.appendChild(newScript).parentNode.removeChild(newScript);
                 });
-                pageContent.style.opacity = 1;
 
 
         } catch (error) {
@@ -157,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 applyHoverEffects(hoveredIndex);
             }
         }
-        initialLoad(); // Load content after intro animation
     }, 1200);
+
+    initialLoad(); // Load content immediately, in parallel with intro animation
 });
