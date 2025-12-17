@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica:ital@0;1&family=Pixelify+Sans:wght@400..700&display=swap');
 
 :root {
-    /* ... (your color variables are still here, I'm omitting them for brevity) ... */
     --color-green-1: #5ba675;
     --color-green-2: #6bc96c;
     --color-green-3: #abdd64;
@@ -42,7 +41,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Hide anything that goes off-screen */
+    overflow: hidden; 
 }
 
 body {
@@ -78,30 +77,27 @@ body {
     background-repeat: no-repeat;
     transform-origin: bottom center;
 
-    /* --transform-vars-- */
     --base-rotate: calc(var(--i) * var(--angle));
     --push-rotate: var(--push-angle, 0deg);
     --wobble-rotate: 0deg;
     --hover-scale: 1;
-    --pressed-scale: 1; /* Added for click effect */
-    --name-lift: -250%; /* Added for sync effect */
+    --pressed-scale: 1; /* click effect */
+    --name-lift: -250%; /* sync  */
     --hover-translate-y: 0px;
     --hover-translate-z: 0px;
 
     transform: 
         translateY(var(--push-y, 0px)) 
         rotate(calc(var(--base-rotate) + var(--push-rotate) + var(--wobble-rotate)))
-        scale(calc(var(--hover-scale) * var(--pressed-scale))) /* Use calc() for multiplication */
+        scale(calc(var(--hover-scale) * var(--pressed-scale))) 
         translateY(var(--hover-translate-y))
         translateZ(var(--hover-translate-z));
     
     animation: fanOut 0.67s ease-out backwards;
-    animation-delay: var(--initial-animation-delay, 0s), 1.2s; /* Delay bob until after fanOut */
-
+    animation-delay: var(--initial-animation-delay, 0s), 1.2s; 
     transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
 
-/* Corrected rule: Only set the variable, don't override the whole transform */
 .card--pressed {
     --pressed-scale: 0.95;
     --name-lift: calc(-250% / 0.95); 
@@ -114,26 +110,25 @@ body {
 }
 .card:nth-child(2) { 
     --i: -1; 
-    animation-delay: 0.4s, 1.6s; /* fanOut delay, cardBob delay */
+    animation-delay: 0.4s, 1.6s; 
     background-image: url('assets/card_back_2.png'); 
 }
 .card:nth-child(3) { 
     --i: 0; 
-    animation-delay: 0.3s, 1.5s; /* fanOut delay, cardBob delay */
+    animation-delay: 0.3s, 1.5s; 
     background-image: url('assets/card_back_3.png'); 
 }
 .card:nth-child(4) { 
     --i: 1; 
-    animation-delay: 0.2s, 1.4s; /* fanOut delay, cardBob delay */
+    animation-delay: 0.2s, 1.4s; 
     background-image: url('assets/card_back_4.png'); 
 }
 .card:nth-child(5) { 
     --i: 2; 
-    animation-delay: 0.1s, 1.3s; /* fanOut delay, cardBob delay */
+    animation-delay: 0.1s, 1.3s; 
     background-image: url('assets/card_back_5.png'); 
 }  
 
-/* The animation keyframes */
 @keyframes fanOut {
     from {
         transform: rotate(-60deg); 
@@ -144,9 +139,7 @@ body {
 }
 
 
-/* --- Hover Effects --- */
-
-/* Hover effects are disabled while the .is-animating class is on the body */
+/* hover effects */
 body:not(.is-animating) .card-container .card:hover {
     --hover-scale: 1.1;
     --hover-translate-y: -100px;
@@ -170,7 +163,7 @@ body:not(.is-animating) .card-container:has(.card:hover) .card:not(:hover) {
     opacity: 0;
     transform: translateY(-50%); 
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-} */
+} old card name, have not decided what to remove yet*/
 
 .card-name {
     position: absolute;
@@ -184,7 +177,7 @@ body:not(.is-animating) .card-container:has(.card:hover) .card:not(:hover) {
     opacity: 0;
     transform: translateY(-50%); 
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-    user-select: none; /* Prevent text highlighting */
+    user-select: none; 
 }
 
 body:not(.is-animating) .card:hover .card-name {
@@ -192,7 +185,7 @@ body:not(.is-animating) .card:hover .card-name {
     transform: translateY(var(--name-lift)); 
 }
 
-/* --- Page Content --- */
+/* page content */
 #page-content {
     position:absolute;
     width: 100%;
