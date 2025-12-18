@@ -143,4 +143,79 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 1200);
     initialLoad(); 
+
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    function renderStars() {
+        const container = document.getElementById('star-background');
+        if (!container) return;
+        
+        container.innerHTML = '';
+
+        const containerWidth = container.clientWidth;
+        const containerHeight = container.clientHeight;
+
+        const config = {
+            starCount: 100,
+            minOpacity: 0,
+            maxOpacity: 0.6,
+            maxGlow: 5,
+            baseScale: 1.2,
+        };
+
+        const starSprites = [
+            '0px 0px',    
+            '-16px 0px', 
+            '0px -16px',  
+            '-16px -16px'
+        ];
+        
+        const scale = config.baseScale / (window.devicePixelRatio || 1);
+
+        for (let i = 0; i < config.starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+
+            const x = Math.round(Math.random() * containerWidth);
+            const y = Math.round(Math.random() * containerHeight);
+            star.style.left = `${x}px`;
+            star.style.top = `${y}px`;
+
+            const randomSprite = starSprites[Math.floor(Math.random() * starSprites.length)];
+            star.style.backgroundPosition = randomSprite;
+            
+            let transform = `translateZ(0) scale(${scale})`;
+            if (Math.random() < 0.5) {
+                transform += ' scaleX(-1)';
+            }
+            star.style.transform = transform;
+
+            const opacity = Math.random() * (config.maxOpacity - config.minOpacity) + config.minOpacity;
+            const blinkOpacity = Math.max(config.minOpacity, opacity * 0.5);                  
+            star.style.setProperty('--initial-opacity', opacity);                             
+            star.style.setProperty('--blink-opacity', blinkOpacity);                          
+                                                                                        
+            const duration = Math.random() * 5 + 5;                       
+            const delay = Math.random() * 5;                                   
+            star.style.setProperty('--blink-duration', `${duration}s`);                       
+            star.style.setProperty('--blink-delay', `${delay}s`);
+
+            if (opacity > config.minOpacity) {
+                const glowSize = (opacity - config.minOpacity) / (config.maxOpacity - config.minOpacity) * config.maxGlow;
+                star.style.filter = `drop-shadow(0 0 ${glowSize}px rgba(255, 255, 255, ${opacity}))`;
+            }
+
+            container.appendChild(star);
+        }
+    }
+    
+    const debouncedRenderStars = debounce(renderStars, 10);
+    window.addEventListener('resize', debouncedRenderStars);
+    renderStars();
 });

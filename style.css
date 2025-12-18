@@ -218,3 +218,31 @@ body:not(.is-animating) .card:hover .card-name {
     text-align: center;
     width: 100%;
 }
+
+#star-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+@keyframes blink {
+  50% {
+    opacity: var(--blink-opacity);
+  }
+}
+
+.star {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-image: url('assets/star_sprites.png');
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  opacity: var(--initial-opacity);
+  animation: blink var(--blink-duration) var(--blink-delay) infinite alternate;
+}
