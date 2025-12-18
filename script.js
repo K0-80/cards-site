@@ -7,9 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // hover effectsz
-    const BASE_PUSH_ANGLE = 20; // deg
-    const BASE_PUSH_Y = 50;     // px
+    // hover effects-
 
     function applyHoverEffects(hoveredIndex) {
         cards.forEach((otherCard, otherIndex) => {
@@ -23,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const distance = Math.abs(hoveredIndex - otherIndex);
                 const effectiveDistance = Math.max(1, distance); 
                 
-                pushAngle = (BASE_PUSH_ANGLE / effectiveDistance) * (otherIndex < hoveredIndex ? -1 : 1);
-                pushY = (BASE_PUSH_Y / effectiveDistance);
+                pushAngle = (20 / effectiveDistance) * (otherIndex < hoveredIndex ? -1 : 1);
+                pushY = (50 / effectiveDistance);
             }
             otherCard.style.setProperty('--push-angle', `${pushAngle}deg`);
             otherCard.style.setProperty('--push-y', `${pushY}px`);
@@ -103,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`pages/${page}.html`);
             if (!response.ok) {
-                pageContent.innerHTML = `<p>Error: Could not load page. Status: ${response.status}</p>`;
+                pageContent.innerHTML = `<p>Coudnt load page, status: ${response.status}</p>`;
                 return;
             }
             const html = await response.text();
@@ -124,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Failed to load page:', error);
-            pageContent.innerHTML = '<p>An error occurred while loading the content.</p>';
+            pageContent.innerHTML = '<p>mmmm... seems like something broke :/</p>';
         }
     }
 

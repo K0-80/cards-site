@@ -16,46 +16,46 @@ A website is primarily built with three languages:
 *   `style.css`: Where all the visual rules and animations for the site are defined.
 *   `script.js`: Our new JavaScript file that handles the complex, dynamic hover interactions for the cards.
 *   `assets/`: This folder contains your images, including the background and 5 different card backs (`card_back_1.png` through `card_back_5.png`).
+*   `pages/`: This folder contains the content for your different pages (`about.html`, `home.html`, etc.).
 
-## Our Progress So Far: The Dynamic Card Fan
+## Our Progress So Far
 
-We've built a beautiful and complex interactive card fan at the bottom of the page. Here’s a breakdown of how it all works.
+### 1. Single-Page Application (SPA) & Routing
 
-### 1. HTML Structure (`index.html`)
+Your website now functions as a Single-Page Application. This means the page content is loaded dynamically without a full page refresh, creating a faster and smoother user experience.
 
-Your `index.html` file now contains a `.card-container` which holds five `.card` divs. We also added a temporary `is-animating` class to the `<body>` tag, which is crucial for making sure our animations run correctly on page load.
+*   **Core Structure:** `index.html` is the single entry point for your users. It contains the header, the navigation (the card fan), and a main content area (`<main id="page-content">`).
+*   **Page Content:** The actual content for the different sections of your site is stored in separate files within the `pages/` directory (e.g., `pages/home.html`, `pages/about.html`).
+*   **JavaScript-driven Routing:** `script.js` handles the routing. When you click a card, it:
+    1.  Prevents the default link behavior.
+    2.  Updates the URL in the browser with a hash (e.g., `.../index.html#home`).
+    3.  Uses the `fetch` API to get the content of the corresponding HTML file from the `pages/` directory.
+    4.  Injects the loaded content into the `<main id="page-content">` element.
+    5.  Manages the browser's history, so the back and forward buttons work as expected.
 
-### 2. CSS Styling & Animation (`style.css`)
+### 2. The Dynamic Card Fan
 
-Your `style.css` file has evolved significantly and now includes several advanced features:
+We've built a beautiful and complex interactive card fan at the bottom of the page that acts as the site's primary navigation. Here’s a breakdown of how it all works.
 
-*   **The Card Fan Layout:** We are using CSS variables (`--i` and `--angle`) to position each of the 5 cards in a symmetrical fan. Each card's rotation is calculated automatically.
-*   **Initial "Fan-Out" Animation:**
-    *   When the page loads, the cards perform a "fan-out" animation, starting from a single point on the left and smoothly moving to their final positions.
-    *   We use `@keyframes fanOut` to define this motion and `animation-delay` on each card to create the sequential effect.
-    *   The `is-animating` class on the body is used to prevent hover effects from firing and breaking the layout while this initial animation is in progress.
-*   **3D Hover Effects:**
-    *   To create a smooth "pop-out" effect without the sudden jump of `z-index`, we've given the `.card-container` a `perspective`.
-    *   When you hover a card, we use `transform: translateZ()` to move it towards you in 3D space. This is a `transform` property, so it animates smoothly with the `transition` we've set.
-*   **Transparency:** To help focus the user's attention, non-hovered cards become slightly transparent.
+*   **HTML Structure (`index.html`):** Your `index.html` file contains a `.card-container` which holds five `.card` divs. Each card has a `data-page` attribute that tells the JavaScript which page to load. We also added a temporary `is-animating` class to the `<body>` tag, which is crucial for making sure our animations run correctly on page load.
 
-### 3. JavaScript for Dynamic Interaction (`script.js`)
+*   **CSS Styling & Animation (`style.css`):** Your `style.css` file has evolved significantly and now includes several advanced features:
+    *   **The Card Fan Layout:** We are using CSS variables (`--i` and `--angle`) to position each of the 5 cards in a symmetrical fan. Each card's rotation is calculated automatically.
+    *   **Initial "Fan-Out" Animation:** When the page loads, the cards perform a "fan-out" animation. The `is-animating` class on the body prevents hover effects from breaking the layout while this initial animation is in progress.
+    *   **3D Hover Effects:** To create a smooth "pop-out" effect, we've given the `.card-container` a `perspective`. When you hover a card, `transform: translateZ()` moves it towards you in 3D space.
+    *   **Transparency:** To help focus the user's attention, non-hovered cards become slightly transparent.
 
-To achieve the complex effect where sibling cards react differently based on which card is hovered, we introduced JavaScript. Here’s a high-level look at what it does:
-
-*   **Listens for Hovers:** The script adds `mouseenter` and `mouseleave` event listeners to each card.
-*   **Calculates Dynamically:** When you hover over a card, the script instantly calculates the distance from that card to every other card in the fan.
-*   **Sets CSS Variables:** Based on those calculations, it sets two new CSS variables on each sibling card:
-    *   `--push-angle`: An extra rotation amount.
-    *   `--push-y`: A vertical movement amount.
-*   **Distance-Based Effect:** The values for these variables are inversely proportional to the distance from the hovered card. This creates the dynamic effect where closer cards move and rotate *more*, and cards further away move *less*.
-*   **Robust Reset:** The script is carefully written to reset all these dynamic styles when the mouse leaves a card, fixing the bug where cards would get "stuck".
+*   **JavaScript for Dynamic Interaction (`script.js`):** To achieve the complex effect where sibling cards react differently based on which card is hovered, we introduced JavaScript. Here’s a high-level look at what it does:
+    *   **Listens for Hovers:** The script adds `mouseenter` and `mouseleave` event listeners to each card.
+    *   **Calculates Dynamically:** When you hover over a card, the script instantly calculates the distance from that card to every other card in the fan.
+    *   **Sets CSS Variables:** Based on those calculations, it sets two new CSS variables on each sibling card: `--push-angle` and `--push-y`.
+    *   **Distance-Based Effect:** The values for these variables are inversely proportional to the distance from the hovered card. This creates the dynamic effect where closer cards move and rotate *more*, and cards further away move *less*.
 
 ## Next Steps
 
-We have a complete and polished interactive element on the page. We could now consider:
+Now that the core SPA functionality and navigation are in place, we can focus on content! We could now consider:
 
-*   **Adding content "behind" the cards:** The main page area is still empty. We could design a portfolio, gallery, or "About Me" section there.
+*   **Building out the content** for the `home.html`, `about.html`, and `vblog.html` pages.
 *   **Flipping the Cards:** We could add a "click" event that flips a card over to reveal content on the other side.
 *   **Further refining the animations** or adding new interactive elements.
 
